@@ -1,0 +1,3 @@
+1. Figure out what the training and validation sets need to be. (Images and their corresponding labels/target).
+2. Modify the base MNIST CNN model for the playing cards. 
+3. End goal is to output a list of the card predictions from a single screenshot - real world compatibility.
