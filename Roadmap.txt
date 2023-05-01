@@ -1,3 +1,32 @@
 1. Figure out what the training and validation sets need to be. (Images and their corresponding labels/target).
 2. Modify the base MNIST CNN model for the playing cards. 
 3. End goal is to output a list of the card predictions from a single screenshot - real world compatibility.
+
+ If you have a limited dataset and want to leverage the knowledge from a larger dataset, transfer learning might be a good option. If you have a small number of images and are not concerned about real-time performance, the sliding window approach with your custom model might be sufficient. However, if you want a more efficient and accurate object detection method that can handle detecting multiple cards within an image, using YOLOv8 for CNNs could be the best choice.
+
+ Sliding Window Approach:
+Pros:
+
+Simple and straightforward to implement.
+Can be used with your custom model (CardCNN) without requiring any additional model training or modification.
+Can work well for a small number of images and when real-time performance is not a concern.
+Cons:
+
+Computationally expensive, especially for large images or many possible card positions and orientations. This can make it inefficient for real-time applications or larger datasets.
+Choosing the appropriate window size, stride, and aspect ratio can be challenging and may require experimentation.
+May not be as accurate as more advanced object detection algorithms like YOLO.
+Difficulty level: Moderate, mainly because of the need to experiment with various window sizes, strides, and aspect ratios to achieve good detection performance.
+
+YOLO (You Only Look Once, either v5 or v8):
+Pros:
+
+Designed specifically for real-time object detection, making it computationally efficient and fast.
+Can handle detecting multiple objects (cards) within an image.
+Generally more accurate than the sliding window approach, as it is a state-of-the-art object detection algorithm.
+Can be fine-tuned with your card dataset to improve its performance on detecting cards specifically.
+Cons:
+
+May have a steeper learning curve, especially if you are not familiar with the YOLO architecture and training process.
+Requires fine-tuning the YOLO model with your dataset, which can be time-consuming, although transfer learning can speed up the process.
+YOLOv8 might have additional improvements and features over YOLOv5, but as I am not familiar with YOLOv8, I can only provide guidance based on YOLOv5 or refer to available documentation for YOLOv8.
+Difficulty level: High, mainly due to the need to familiarize yourself with the YOLO architecture, fine-tuning process, and integrating it with your dataset. However, with the available resources, tutorials, and my assistance, it is still achievable.

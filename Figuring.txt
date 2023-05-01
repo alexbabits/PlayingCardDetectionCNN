@@ -12,7 +12,5 @@ f. Model Prediction: Once the model is trained and evaluated, you can use it to 
 
 Treating each card as a separate class, resulting in a multiclass classification task. Make a dataset that has the 52 cards in their native setting, ensuring a sufficient number of samples for each card class. This dataset can be split into training and validation sets, where the validation sets contain subsets of the 52 cards.
 
-'Back' is the 53rd 'card' for the cards with the back shown.
-
 -Training set may be sufficient to only need the 52 small size standard cards. (maybe the poker table examples too)
 -Validation set should ideally represent the scenarios where you want your model to perform well. This can include both isolated card images and screenshots of poker tables, as well as small and large size, and semi-translucent size from folding during screenshot.
