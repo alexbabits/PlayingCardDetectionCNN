@@ -14,3 +14,16 @@ Treating each card as a separate class, resulting in a multiclass classification
 
 -Training set may be sufficient to only need the 52 small size standard cards. (maybe the poker table examples too)
 -Validation set should ideally represent the scenarios where you want your model to perform well. This can include both isolated card images and screenshots of poker tables, as well as small and large size, and semi-translucent size from folding during screenshot.
+
+
+Tweaking the model:
+- Batch size (4 to 64+?)
+If you find that your model is overfitting, you may want to increase the number of epochs and/or apply stronger data augmentation techniques:
+Each epoch processes 52 randomly transformed images from the 52 cards. The transformations may vary from epoch to epoch due to the random nature of the data augmentation techniques. This helps increase the effective size of the dataset by adding variations of the same image, which can improve the model's generalization ability.
+- Number of Epochs ()
+- Additional Regularization techniques:
+    -Increasing dropout rate above 0.5
+    -Using L1 or L2 Regularization
+    -Employing early stopping
+
+Testing the model on table images.
