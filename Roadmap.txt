@@ -4,12 +4,16 @@
 
  If you have a limited dataset and want to leverage the knowledge from a larger dataset, transfer learning might be a good option. If you have a small number of images and are not concerned about real-time performance, the sliding window approach with your custom model might be sufficient. However, if you want a more efficient and accurate object detection method that can handle detecting multiple cards within an image, using YOLOv8 for CNNs could be the best choice.
 
- Sliding Window Approach:
+
+
+
+                                Sliding Window Approach:
 Pros:
 
 Simple and straightforward to implement.
 Can be used with your custom model (CardCNN) without requiring any additional model training or modification.
 Can work well for a small number of images and when real-time performance is not a concern.
+
 Cons:
 
 Computationally expensive, especially for large images or many possible card positions and orientations. This can make it inefficient for real-time applications or larger datasets.
@@ -17,13 +21,14 @@ Choosing the appropriate window size, stride, and aspect ratio can be challengin
 May not be as accurate as more advanced object detection algorithms like YOLO.
 Difficulty level: Moderate, mainly because of the need to experiment with various window sizes, strides, and aspect ratios to achieve good detection performance.
 
-YOLO (You Only Look Once, either v5 or v8):
+                                YOLO (You Only Look Once, either v5 or v8):
 Pros:
 
 Designed specifically for real-time object detection, making it computationally efficient and fast.
 Can handle detecting multiple objects (cards) within an image.
 Generally more accurate than the sliding window approach, as it is a state-of-the-art object detection algorithm.
 Can be fine-tuned with your card dataset to improve its performance on detecting cards specifically.
+
 Cons:
 
 May have a steeper learning curve, especially if you are not familiar with the YOLO architecture and training process.

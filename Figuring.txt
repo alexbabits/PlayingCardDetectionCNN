@@ -14,3 +14,48 @@ Treating each card as a separate class, resulting in a multiclass classification
 
 -Training set may be sufficient to only need the 52 small size standard cards. (maybe the poker table examples too)
 -Validation set should ideally represent the scenarios where you want your model to perform well. This can include both isolated card images and screenshots of poker tables, as well as small and large size, and semi-translucent size from folding during screenshot.
+
+- Additional Regularization techniques:
+    -Dropout rate above 0.5
+    -Using L1 or L2 Regularization
+    -Employing early stopping
+    -Adjusting number of epochs
+    -Batch size
+    -Kernel size-
+    -Stride length
+
+
+
+
+Here is the overview of my CNN playing card detector project so far that I'm making with pytorch:
+
+I have a folder 'Card Images'. Contains 52 .png images of vertically oriented digital screenshots of individual playing cards. Card images are labeled '2c.png', '3c.png' which corresponds to their truth label (2c = two of clubs). They are colored and are all 27x38 size.
+I have a folder 'Table Images'. Contains 24 .png images, 'Table1.png ... Table24.png'. These images are of varying size from around 500x900 to 1000x700. They are also colored. These tables are the 'background' and have playing cards on them. We resize the tables to the smallest table size for uniformity. 
+Both the Card images and Table images are digital screenshots from one poker site, they are not 'in real life' photos, so there is no concern of lighting/angle/orientation. The only possible concern is with the sizing of the cards, which we take care of in data preparation when we randomly scale the card size.
+I have a file 'Tables.json'. Contains the 24 json objects for the table images and their labels, here's the example of the first two:
+
+"[
+    {
+      "table_image": "Table1.png",
+      "table_label": ["6d", "2h", "8s", "7s", "Jh", "Kh", "2c", "3h", "Ah", "As", "Ts", "Ac", "Js", "Qc", "6c", "3s", "9h", "Qd", "4h", "3c", "7h", "9c", "7d", "Jd", "6s", "9d", "2s", "Qs", "4s", "Jc", "8h", "5h", "5c", "7c", "5s", "Ks", "Kc", "Td", "6h", "Qh", "Tc", "Ad", "4d", "9s"]
+    },
+    {
+      "table_image": "Table2.png",
+      "table_label": ["7s", "Ac", "3h", "Kc", "Qd", "4h", "Kd", "8c", "Ts", "Jh", "4s", "4c", "Td", "As", "9d", "8s", "9c", "Ad", "9h", "8h", "Qc", "3c", "7h", "2s", "5d", "Jc", "6c", "Js", "2c", "5h", "2d", "Jd", "Qh", "Ks", "9s", "7d", "6h", "3s", "Th", "7c", "4d", "3d", "8d", "Kh", "6s", "Ah", "Tc", "5s"]
+    }...]"
+
+I have a file 'Detection.ipynb' which contains all the python code for preparing, building, training, and predicting with a CNN model.
+
+End goal: Have a neural network which is able to look at screenshot images of an online poker table, and determine the values of the cards with high enough accuracy to output a correct list of cards which are on the table. Input a table image with cards on it and output the list of cards that were on the table. For example, if a table image has 5 cards among its background: (Ace of clubs, Two of spades, nine of diamonds, six of hearts, seven of clubs), then the sliding window would be able to see those 5 cards on the table, and output the top predictions of what cards it sees: [Ac, 2s, 9d, 6h, 7c] where each card just has an integer value associated with it.
+
+Approach: Train a model on the 52 individual card images, so it understand what every card looks like. Then, my validation/test using a sliding window will see if it can recognize these cards amongst a table background. Lastly, we have some code which attempts to extract the top predictions from the sliding window. The cards from the training (images of just the cards, no background) and testing (cards on the table) are both in the same orientation/lighting/etc, where the only difference is the sizing of the cards on the table's background may be scaled up or down, which we accounted for in our training data by randomly resizing the individual card images.
+
+Code done so far:
+
+1. Imported/installed all the necessary libraries.
+2. Prepared the data: (Created subclass of pytorch .Dataset. Initialized the class, grabbed the table screenshot images and labels, and the individual card images and labels. Specified the number of classes in the card dataset which is 52, one for each card. Specified the input shape of the cards. Did resizing transformations on both the cards and table screenshot images so it can be more flexible. Created instances of the subclass we built. The individual cards dataset is the training data, and the table screenshots are the testing data. Lastly, made DataLoaders for both the table and card data.)
+3. Built the custom nn.Module CNN model: With 2 conv layers, a maxpool, dropout, and two fully connected layers.
+4. Trained the model: on the individual card image training data. The model has an accuracy of over 90% for the individual playing card images over the various sizes.
+5. Wrote a sliding window function and other code to get predictions of the labels from the table images.
+
+Next, I will actually show you all the current code, in chunks, and then describe my current struggle with some of the code.
