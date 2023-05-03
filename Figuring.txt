@@ -1,32 +1,3 @@
-a. Data Preparation: Load the images for each card class, preprocess them if necessary (e.g., resize, normalize, augment), and split them into training and validation sets. You can use libraries like OpenCV or PIL for image processing. To convert the image to raw data that can be input to the CNN model, the libraries typically handle tasks such as resizing, normalizing pixel values, and transforming images into appropriate tensor formats that can be processed by the model. This preprocessing step prepares the image data to be fed into the neural network for training and prediction.
-
-b. Model Architecture: Design the architecture of your CNN model using the chosen framework's APIs (e.g., Keras, PyTorch). Specify the layers, activation functions, and other configurations for the model.
-
-c. Model Compilation: Configure the model by specifying the loss function, optimizer, and evaluation metrics. Compile the model using the appropriate framework's APIs.
-
-d. Model Training: Fit the model to the training data using the fit function or similar methods. Specify the number of epochs, batch size, and other training parameters. Monitor the training process to ensure convergence and adjust hyperparameters if needed.
-
-e. Model Evaluation: Evaluate the trained model on the validation set using appropriate metrics to assess its performance. You can use the evaluate function or similar methods.
-
-f. Model Prediction: Once the model is trained and evaluated, you can use it to make predictions on new, unseen data. In my case, you can input screenshots of digital poker tables with multiple cards and use the model to predict the card values and suits.
-
-Treating each card as a separate class, resulting in a multiclass classification task. Make a dataset that has the 52 cards in their native setting, ensuring a sufficient number of samples for each card class. This dataset can be split into training and validation sets, where the validation sets contain subsets of the 52 cards.
-
--Training set may be sufficient to only need the 52 small size standard cards. (maybe the poker table examples too)
--Validation set should ideally represent the scenarios where you want your model to perform well. This can include both isolated card images and screenshots of poker tables, as well as small and large size, and semi-translucent size from folding during screenshot.
-
-- Additional Regularization techniques:
-    -Dropout rate above 0.5
-    -Using L1 or L2 Regularization
-    -Employing early stopping
-    -Adjusting number of epochs
-    -Batch size
-    -Kernel size-
-    -Stride length
-
-
-
-
 Here is the overview of my CNN playing card detector project so far that I'm making with pytorch:
 
 I have a folder 'Card Images'. Contains 52 .png images of vertically oriented digital screenshots of individual playing cards. Card images are labeled '2c.png', '3c.png' which corresponds to their truth label (2c = two of clubs). They are colored and are all 27x38 size.
@@ -59,3 +30,15 @@ Code done so far:
 5. Wrote a sliding window function and other code to get predictions of the labels from the table images.
 
 Next, I will actually show you all the current code, in chunks, and then describe my current struggle with some of the code.
+
+Target: (980, 600)
+
+Table1 (986, 695) x=(980/986), y=(600/695):
+
+[362, 214, 414, 285], [417, 214, 468, 285], [472, 214, 523, 285], [580, 214, 631, 285], [10, 613, 37, 650], [38, 613, 66, 650], [67, 613, 94, 650], [96, 613, 123, 650], [125, 613, 152, 650], [154, 613, 180, 650], [182, 613, 209, 650], [210, 613, 238, 650], [239, 613, 267, 650], [268, 613, 295, 650], [296, 613, 324, 650], [325, 613, 352, 650], [353, 613, 381, 650], [382, 613, 409, 650], [410, 613, 438, 650], [439, 613, 466, 650], [468, 613, 495, 650], [496, 613, 523, 650], [525, 613, 552, 650], [554, 613, 581, 650], [582, 613, 609, 650], [610, 613, 637, 650], [640, 613, 667, 650], [669, 613, 695, 650], [10, 652, 37, 690], [38, 652, 65, 690], [67, 652, 94, 690], [96, 652, 123, 690], [125, 652, 152, 690], [154, 652, 180, 690], [182, 652, 209, 690], [211, 652, 238, 690], [239, 652, 266, 690], [267, 652, 294, 690], [296, 652, 324, 690], [325, 652, 352, 690], [354, 652, 381, 690], [382, 652, 409, 690], [411, 652, 438, 690]
+
+Table2:
+
+[365, 214, 417, 285], [420, 214, 470, 285], [474, 214, 526, 285], [529, 214, 580, 285], [583, 214, 635, 285], [310, 414, 351, 470], [353, 413, 394, 470],
+[620, 413, 662, 471], [664, 413, 705, 470], [12, 614, 40, 651], [42, 614, 68, 651], [70, 614, 97, 651], [99, 614, 126, 651], [128, 614, 155, 651], [156, 614, 183, 651], [185, 614, 212, 651], [213, 614, 240, 651], [242, 614, 269, 651], [271, 614, 297, 651], [299, 614, 326, 651], [328, 614, 355, 651], [356, 614, 383, 651], [385, 614, 412, 651], [413, 614, 441, 651], [442, 614, 469, 651], [470, 614, 497, 651], [500, 614, 526, 651], [528, 614, 555, 651], [557, 614, 583, 651], [585, 614, 612, 651], [614, 614, 640, 651], [643, 614, 669, 651], [671, 614, 698, 651], [12, 653, 40, 690], [42, 653, 68, 690], [70, 653, 97, 690], [99, 653, 126, 690], [128, 653, 154, 690], [156, 653, 183, 690], [185, 653, 212, 690], [213, 653, 240, 690], [242, 653, 269, 690], [271, 653, 297, 690], [299, 653, 326, 690], [328, 653, 355, 690], [356, 653, 383, 690], [385, 653, 412, 690], [413, 653, 441, 690]
+
