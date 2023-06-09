@@ -1,1 +1,1 @@
-
+Train model to successfully find cards on various table backgrounds.
